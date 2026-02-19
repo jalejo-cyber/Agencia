@@ -95,3 +95,17 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: err.message || "Server error" });
   }
 }
+await fetch("URL_GOOGLE_SCRIPT", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    tipusDocument,
+    dni: fields.dni,
+    nom: fields.nom,
+    cognom1: fields.cognom1,
+    cognom2: fields.cognom2,
+    email: fields.email,
+    telefon: fields.telefon,
+    sector: fields.sector
+  })
+});
