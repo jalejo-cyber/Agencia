@@ -29,7 +29,7 @@ export default async function handler(req, res) {
     });
 
     // 🔎 CLASSIFICAR DNI / NIE
-    const dniValue = fields.dni;
+    const dniValue = fields.dni || "";
     const tipusDocument = /^[0-9]/.test(dniValue) ? "DNI" : "NIE";
 
     // 📎 ADJUNT
@@ -90,27 +90,33 @@ export default async function handler(req, res) {
     });
 
     // 📊 ENVIAR A GOOGLE SHEETS
-   await fetch(process.env.GOOGLE_SCRIPT_URL, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    dni: fields.dni,
-    nom: fields.nom,
-    cognom1: fields.cognom1,
-    cognom2: fields.cognom2,
-    dataNaixement: fields.dataNaixement,
-    genere: fields.genere,
-    estudis: fields.estudis,
-    discapacitat: fields.discapacitat,
-    feina2mesos: fields.feina2mesos,
-    email: fields.email,
-    telefon: fields.telefon,
-    poblacio: fields.poblacio,
-    prestacio: fields.prestacio,
-    collectiu: fields.collectiu,
-    sector: fields.sector,
-    disponibilitat: fields.disponibilitat
-  })
-});
- }
-    }
+    await fetch(process.env.GOOGLE_SCRIPT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        dni: fields.dni,
+        nom: fields.nom,
+        cognom1: fields.cognom1,
+        cognom2: fields.cognom2,
+        dataNaixement: fields.dataNaixement,
+        genere: fields.genere,
+        estudis: fields.estudis,
+        discapacitat: fields.discapacitat,
+        feina2mesos: fields.feina2mesos,
+        email: fields.email,
+        telefon: fields.telefon,
+        poblacio: fields.poblacio,
+        prestacio: fields.prestacio,
+        collectiu: fields.collectiu,
+        sector: fields.sector,
+        disponibilitat: fields.disponibilitat
+      })
+    });
+
+    return res.status(200).json({ ok: true });
+
+  } catch (err) {
+    console.error("ERROR REAL:", err);
+    return res.status(500).json({ error: err.message || "Server error" });
+  }
+}
