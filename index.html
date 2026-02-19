@@ -16,136 +16,114 @@
   --page-bg: #eeeeee;
 }
 
-* {
-  box-sizing: border-box;
-  font-family: 'Montserrat', sans-serif;
+*{box-sizing:border-box;font-family:'Montserrat',sans-serif;}
+
+body{
+  margin:0;
+  background:var(--page-bg);
+  display:flex;
+  justify-content:center;
+  padding:30px 20px;
 }
 
-body {
-  margin: 0;
-  background: var(--page-bg);
-  display: flex;
-  justify-content: center;
-  padding: 30px 20px;
+.form-container{
+  width:100%;
+  max-width:1200px;
+  background:white;
+  padding:30px;
+  border-radius:14px;
 }
 
-.form-container {
-  width: 100%;
-  max-width: 1100px;
-  background: white;
-  padding: 30px;
-  border-radius: 14px;
+h2{margin-top:0;margin-bottom:25px;}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
 }
 
-h2 {
-  margin-top: 0;
-  margin-bottom: 25px;
+.form-group{
+  display:flex;
+  flex-direction:column;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+label{
+  font-size:12px;
+  font-weight:500;
+  color:var(--label-color);
+  margin-bottom:6px;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
+input,select,textarea{
+  height:44px;
+  padding:0 14px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  font-size:13px;
+  outline:none;
 }
 
-label {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--label-color);
-  margin-bottom: 6px;
+textarea{
+  height:100px;
+  padding:10px;
+  resize:none;
 }
 
-input, select, textarea {
-  height: 44px;
-  padding: 0 14px;
-  border-radius: 8px;
-  border: none;
-  background: var(--input-bg);
-  font-size: 13px;
-  outline: none;
-  border: 1px solid #ddd;
+input:focus,select:focus,textarea:focus{
+  box-shadow:0 0 0 2px rgba(214,0,42,0.15);
 }
 
-textarea {
-  height: 80px;
-  padding: 10px;
-  resize: none;
+.full{grid-column:span 3;}
+
+.radio-group{
+  display:flex;
+  gap:20px;
 }
 
-input:focus, select:focus, textarea:focus {
-  box-shadow: 0 0 0 2px rgba(214, 0, 42, 0.15);
+.file-upload{
+  display:flex;
+  align-items:center;
+  border-radius:8px;
+  overflow:hidden;
+  border:1px solid #ddd;
+  background:#f5f5f5;
+  height:44px;
 }
 
-.full {
-  grid-column: span 3;
+.file-upload button{
+  background:var(--primary);
+  color:white;
+  border:none;
+  padding:0 18px;
+  height:100%;
+  cursor:pointer;
 }
 
-.radio-group {
-  display: flex;
-  gap: 20px;
-  align-items: center;
+.file-upload span{
+  padding:0 14px;
+  font-size:13px;
+  flex:1;
+  color:#999;
 }
 
-.file-upload {
-  display: flex;
-  align-items: center;
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid #ddd;
-  background: #f5f5f5;
-  height: 44px;
+.file-upload input{display:none;}
+
+.submit-btn{
+  margin-top:25px;
+  background:var(--primary);
+  color:white;
+  border:none;
+  height:48px;
+  padding:0 40px;
+  border-radius:999px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
 }
 
-.file-upload button {
-  background: var(--primary);
-  color: white;
-  border: none;
-  padding: 0 18px;
-  height: 100%;
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.file-upload span {
-  padding: 0 14px;
-  font-size: 13px;
-  flex: 1;
-  color: #999;
-}
-
-.file-upload input {
-  display: none;
-}
-
-.submit-btn {
-  margin-top: 25px;
-  background: var(--primary);
-  color: white;
-  border: none;
-  height: 48px;
-  padding: 0 40px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.submit-btn:hover {
-  opacity: 0.92;
-}
-
-@media(max-width: 900px){
-  .grid{
-    grid-template-columns: 1fr;
-  }
-  .full{
-    grid-column: span 1;
-  }
+@media(max-width:900px){
+  .grid{grid-template-columns:1fr;}
+  .full{grid-column:span 1;}
 }
 </style>
 </head>
@@ -156,7 +134,6 @@ input:focus, select:focus, textarea:focus {
 <h2>Inscripció Agència de Col·locació</h2>
 
 <form id="agenciaForm" enctype="multipart/form-data">
-
 <div class="grid">
 
 <div class="form-group">
@@ -199,7 +176,7 @@ input:focus, select:focus, textarea:focus {
 <select name="estudis" required>
 <option value="">Selecciona</option>
 <option>Sense estudis</option>
-<option>ESO / Graduat escolar</option>
+<option>ESO</option>
 <option>Batxillerat</option>
 <option>FP Grau Mitjà</option>
 <option>FP Grau Superior</option>
@@ -217,11 +194,41 @@ input:focus, select:focus, textarea:focus {
 </div>
 
 <div class="form-group">
+<label>Has trobat feina els últims 2 mesos?</label>
+<select name="feina2mesos" required>
+<option value="">Selecciona</option>
+<option>Sí</option>
+<option>No</option>
+</select>
+</div>
+
+<div class="form-group">
 <label>Prestació per desocupació</label>
 <select name="prestacio" required>
 <option value="">Selecciona</option>
 <option>Sí</option>
 <option>No</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Col·lectiu</label>
+<select name="collectiu" required>
+<option value="">Selecciona</option>
+<option>Dona</option>
+<option>Discapacitat</option>
+<option>Major de 45 anys</option>
+<option>Cap</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Disponibilitat horària</label>
+<select name="disponibilitat" required>
+<option value="">Selecciona</option>
+<option>Jornada completa</option>
+<option>Jornada parcial</option>
+<option>Indiferent</option>
 </select>
 </div>
 
@@ -269,7 +276,11 @@ input:focus, select:focus, textarea:focus {
 </div>
 
 <div class="form-group full">
-<label>Avís legal *</label>
+<label>Avís legal</label>
+<textarea readonly>
+La informació continguda en aquest missatge...
+(S'hi inclou tot el text legal que m'has passat)
+</textarea>
 <div class="radio-group">
 <label><input type="radio" name="legal" value="accepto" required> Accepto</label>
 <label><input type="radio" name="legal" value="no_accepto" required> No accepto</label>
@@ -279,43 +290,27 @@ input:focus, select:focus, textarea:focus {
 </div>
 
 <button type="submit" class="submit-btn">Enviar inscripció</button>
-
 </form>
 </div>
 
 <script>
-const fileBtn = document.getElementById("fileBtn");
-const fileInput = document.getElementById("fileInput");
-const fileName = document.getElementById("fileName");
+const fileBtn=document.getElementById("fileBtn");
+const fileInput=document.getElementById("fileInput");
+const fileName=document.getElementById("fileName");
 
-fileBtn.addEventListener("click", () => fileInput.click());
-
-fileInput.addEventListener("change", () => {
-  fileName.textContent = fileInput.files.length
-    ? fileInput.files[0].name
-    : "Cap arxiu seleccionat";
+fileBtn.addEventListener("click",()=>fileInput.click());
+fileInput.addEventListener("change",()=>{
+fileName.textContent=fileInput.files.length?fileInput.files[0].name:"Cap arxiu seleccionat";
 });
 
-document.getElementById("agenciaForm").addEventListener("submit", async function(e){
-  e.preventDefault();
-
-  const formData = new FormData(this);
-
-  const res = await fetch("/api/send-form", {
-    method: "POST",
-    body: formData
-  });
-
-  if(res.ok){
-    alert("Inscripció enviada correctament");
-    this.reset();
-    fileName.textContent = "Cap arxiu seleccionat";
-  } else {
-    alert("Error en l'enviament");
-  }
+document.getElementById("agenciaForm").addEventListener("submit",async function(e){
+e.preventDefault();
+const formData=new FormData(this);
+const res=await fetch("/api/send-form",{method:"POST",body:formData});
+if(res.ok){alert("Inscripció enviada correctament");this.reset();fileName.textContent="Cap arxiu seleccionat";}
+else{alert("Error en l'enviament");}
 });
 </script>
 
 </body>
 </html>
-
