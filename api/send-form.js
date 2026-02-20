@@ -29,8 +29,8 @@ export default async function handler(req, res) {
     });
 
  // 🔎 CLASSIFICACIONS AUTOMÀTIQUES   
-const esNIE = /^[A-Za-z]/.test(fields.dni);
-const teNIE = esNIE ? "Sí" : "No";
+const dniValue = fields.dni || "";
+const tipusDocument = /^[0-9]/.test(dniValue) ? "DNI" : "NIE";
 
 const teCollectiu =
   fields.discapacitat === "Sí" ||
