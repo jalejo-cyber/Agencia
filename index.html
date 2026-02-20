@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="ca">
 <head>
 <meta charset="UTF-8">
@@ -34,7 +34,23 @@ body{
   border-radius:14px;
 }
 
-h2{margin-top:0;margin-bottom:25px;}
+/* TÍTOL */
+h2{
+  margin-top:0;
+  margin-bottom:25px;
+}
+
+/* ✅ SECCIONS (abans no tenien estil i per això quedava “poc organitzat”) */
+.section-title{
+  grid-column:span 3;
+  font-size:14px;
+  font-weight:600;
+  color:#333;
+  margin:10px 0 -6px;
+  padding-top:10px;
+  padding-bottom:10px;
+  border-bottom:1px solid #eee;
+}
 
 .grid{
   display:grid;
@@ -88,12 +104,34 @@ textarea:focus{
   grid-column:span 3;
 }
 
+/* ✅ RADIOS PETITS I PROPORCIONALS */
 .radio-group{
   display:flex;
-  gap:25px;
+  gap:18px;
   margin-top:10px;
+  align-items:center;
 }
 
+/* IMPORTANT: sobreescrivim el label general perquè aquí no sigui “gran” */
+.radio-group label{
+  margin:0;                 /* ← treu l’espai gran */
+  font-size:13px;           /* ← més petit */
+  font-weight:500;
+  color:var(--text-color);
+  display:flex;             /* ← alineació perfecta */
+  align-items:center;
+  gap:8px;
+  cursor:pointer;
+}
+
+.radio-group input[type="radio"]{
+  width:16px;               /* ← petit */
+  height:16px;
+  accent-color:var(--primary);
+  margin:0;
+}
+
+/* FILE UPLOAD */
 .file-upload{
   display:flex;
   align-items:center;
@@ -136,6 +174,7 @@ textarea:focus{
   display:none;
 }
 
+/* SUBMIT */
 .submit-btn{
   margin-top:30px;
   background:var(--primary);
@@ -159,13 +198,20 @@ textarea:focus{
   .grid{
     grid-template-columns:repeat(2,1fr);
   }
+  .section-title{
+    grid-column:span 2;
+  }
+  .full{
+    grid-column:span 2;
+  }
 }
 
 @media(max-width:700px){
   .grid{
     grid-template-columns:1fr;
   }
-  .full{
+  .full,
+  .section-title{
     grid-column:span 1;
   }
 }
@@ -354,17 +400,25 @@ const fileName=document.getElementById("fileName");
 
 fileBtn.addEventListener("click",()=>fileInput.click());
 fileInput.addEventListener("change",()=>{
-fileName.textContent=fileInput.files.length?fileInput.files[0].name:"Cap arxiu seleccionat";
+  fileName.textContent=fileInput.files.length?fileInput.files[0].name:"Cap arxiu seleccionat";
 });
 
 document.getElementById("agenciaForm").addEventListener("submit",async function(e){
-e.preventDefault();
-const formData=new FormData(this);
-const res=await fetch("/api/send-form",{method:"POST",body:formData});
-if(res.ok){alert("Inscripció enviada correctament");this.reset();fileName.textContent="Cap arxiu seleccionat";}
-else{alert("Error en l'enviament");}
+  e.preventDefault();
+  const formData=new FormData(this);
+  const res=await fetch("/api/send-form",{method:"POST",body:formData});
+  if(res.ok){
+    alert("Inscripció enviada correctament");
+    this.reset();
+    fileName.textContent="Cap arxiu seleccionat";
+  } else {
+    alert("Error en l'enviament");
+  }
 });
 </script>
+
+</body>
+</html>
 
 </body>
 </html>
