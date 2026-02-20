@@ -473,14 +473,16 @@ document.addEventListener("DOMContentLoaded", function(){
 
 });
 </script>
-  
-<div id="successPopup" class="popup">
-  <div class="popup-content">
-    <p>La teva inscripció a l'agència de col·locació s'ha enviat correctament.</p>
-    <button onclick="closePopup()">Acceptar</button>
-  </div>
-</div>
 
+function closePopup(){
+  document.getElementById("successPopup").style.display = "none";
+}
+
+  <div class="success-modal" id="successModal">
+  <h3>T'has inscrit a l'agència de col·locació amb èxit!</h3>
+  <button type="button" onclick="closeModal()">D'acord</button>
+    
+</div>
 </body>
 </html>
 
