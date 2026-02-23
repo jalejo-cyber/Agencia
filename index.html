@@ -377,6 +377,32 @@ Si vostè llegeix aquest missatge i no és el destinatari assenyalat, l'empleat 
 <script>
 document.addEventListener("DOMContentLoaded", function(){
 
+function validarDNINIE(valor) {
+
+  valor = valor.toUpperCase().trim();
+
+  const letras = "TRWAGMYFPDXBNJZSQVHLCKE";
+
+  // DNI
+  if (/^[0-9]{8}[A-Z]$/.test(valor)) {
+    const numero = parseInt(valor.substring(0, 8), 10);
+    const letra = valor.charAt(8);
+    return letras[numero % 23] === letra;
+  }
+
+  // NIE
+  if (/^[XYZ][0-9]{7}[A-Z]$/.test(valor)) {
+    let numero = valor.replace("X", "0")
+                      .replace("Y", "1")
+                      .replace("Z", "2");
+    numero = parseInt(numero.substring(0, 8), 10);
+    const letra = valor.charAt(8);
+    return letras[numero % 23] === letra;
+  }
+
+  return false;
+}
+
 const discapacitatSelect = document.querySelector("select[name='discapacitat']");
 const collectiuSelect = document.querySelector("select[name='collectiu']");
 
@@ -420,33 +446,48 @@ if (discapacitatSelect && collectiuSelect) {
   });
 
   form.addEventListener("submit", async function(e){
+
+  const dniInput = document.querySelector("input[name='dni']");
+  const dniValor = dniInput.value;
+
+  // 🔎 VALIDACIÓ DNI / NIE
+  if (!validarDNINIE(dniValor)) {
+
     e.preventDefault();
-    const formData = new FormData(this);
 
-    try{
-      const res = await fetch("/api/send-form", {
-        method: "POST",
-        body: formData
-      });
+    dniInput.style.borderColor = "#d6002a";
+    dniInput.style.background = "#fff0f0";
 
-      if(res.ok){
-        modal.classList.add("active");
-        this.reset();
-        fileName.textContent = "Cap arxiu seleccionat";
-      } else {
-        alert("Error en l'enviament");
-      }
+    alert("El DNI/NIE introduït no és vàlid.");
+    return;
+  }
 
-    } catch(err){
-      alert("Error de connexió");
+  // Si és correcte, seguim amb enviament
+  e.preventDefault();
+  const formData = new FormData(this);
+
+  try{
+    const res = await fetch("/api/send-form", {
+      method: "POST",
+      body: formData
+    });
+
+    if(res.ok){
+      modal.classList.add("active");
+      this.reset();
+      fileName.textContent = "Cap arxiu seleccionat";
+      dniInput.style.borderColor = "#e2e2e2";
+      dniInput.style.background = "#fafafa";
+    } else {
+      alert("Error en l'enviament");
     }
-  });
 
-  window.closeModal = function(){
-    modal.classList.remove("active");
-  };
+  } catch(err){
+    alert("Error de connexió");
+  }
 
 });
+
 </script>
 
 </body>
