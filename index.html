@@ -451,19 +451,19 @@ if (discapacitatSelect && collectiuSelect) {
   const dniValor = dniInput.value;
 
   // 🔎 VALIDACIÓ DNI / NIE
-  if (!validarDNINIE(dniValor)) {
+form.addEventListener("submit", async function(e){
 
-    e.preventDefault();
+  e.preventDefault();
 
-    dniInput.style.borderColor = "#d6002a";
-    dniInput.style.background = "#fff0f0";
+  const dniInput = document.querySelector("input[name='dni']");
+  const dniValor = dniInput.value;
 
+  if(!validarDNINIE(dniValor)){
     alert("El DNI/NIE introduït no és vàlid.");
+    dniInput.focus();
     return;
   }
 
-  // Si és correcte, seguim amb enviament
-  e.preventDefault();
   const formData = new FormData(this);
 
   try{
@@ -476,8 +476,6 @@ if (discapacitatSelect && collectiuSelect) {
       modal.classList.add("active");
       this.reset();
       fileName.textContent = "Cap arxiu seleccionat";
-      dniInput.style.borderColor = "#e2e2e2";
-      dniInput.style.background = "#fafafa";
     } else {
       alert("Error en l'enviament");
     }
