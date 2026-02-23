@@ -98,45 +98,52 @@ export default async function handler(req, res) {
     });
 
     // 📊 ENVIAR A GOOGLE SHEETS
-    const toUpper = (value) =>
-  typeof value === "string" ? value.toUpperCase() : value;
-const dataFormatada = (fields.dataNaixement || "").replace(/-/g, "");
-    const googleRes = await fetch(process.env.GOOGLE_SCRIPT_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-     
+   // 🔹 NORMALITZADOR SEGUR (evita arrays i undefined)
+const normalizeValue = (value) => {
+  if (Array.isArray(value)) value = value[0];
+  if (typeof value === "string") return value;
+  return "";
+};
 
-body: JSON.stringify({
-  dni: toUpper(fields.dni),
-  nom: toUpper(fields.nom),
-  cognom1: toUpper(fields.cognom1),
-  cognom2: toUpper(fields.cognom2),
-  dataNaixement: dataFormatada,
-  genere: toUpper(fields.genere),
-  estudis: toUpper(fields.estudis),
-  discapacitat: toUpper(fields.discapacitat),
-  teNIE: toUpper(teNIE),
-  teCollectiu: toUpper(teCollectiu),
-  feina2mesos: toUpper(fields.feina2mesos),
-  email: toUpper(fields.email),
-  telefon: toUpper(fields.telefon),
-  poblacio: toUpper(fields.poblacio),
-  prestacio: toUpper(fields.prestacio),
-  sector: toUpper(fields.sector),
-  disponibilitat: toUpper(fields.disponibilitat)
-})
-      
-    });
+// 🔹 MAJÚSCULES SEGURES
+const toUpper = (value) => normalizeValue(value).toUpperCase();
 
-    if (!googleRes.ok) {
-      const errorText = await googleRes.text();
-      console.error("Google Sheets error:", errorText);
-    }
+// 🔹 DATA SEGURA
+const dataFormatada = normalizeValue(fields.dataNaixement).replace(/-/g, "");
 
-    return res.status(200).json({ ok: true });
+// 🔹 ENVIAMENT A GOOGLE SHEETS
+const googleRes = await fetch(process.env.GOOGLE_SCRIPT_URL, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    dni: toUpper(fields.dni),
+    nom: toUpper(fields.nom),
+    cognom1: toUpper(fields.cognom1),
+    cognom2: toUpper(fields.cognom2),
+    dataNaixement: dataFormatada,
+    genere: toUpper(fields.genere),
+    estudis: toUpper(fields.estudis),
+    discapacitat: toUpper(fields.discapacitat),
+    teNIE: toUpper(teNIE),
+    teCollectiu: toUpper(teCollectiu),
+    feina2mesos: toUpper(fields.feina2mesos),
+    email: toUpper(fields.email),
+    telefon: toUpper(fields.telefon),
+    poblacio: toUpper(fields.poblacio),
+    prestacio: toUpper(fields.prestacio),
+    sector: toUpper(fields.sector),
+    disponibilitat: toUpper(fields.disponibilitat)
+  })
+});
 
-  } catch (err) {
-    console.error("ERROR REAL:", err);
-    return res.status(500).json({ error: err.message || "Server error" });
-  }
+if (!googleRes.ok) {
+  const errorText = await googleRes.text();
+  console.error("Google Sheets error:", errorText);
+}
+
+return res.status(200).json({ ok: true });
+
+} catch (err) {
+  console.error("ERROR REAL:", err);
+  return res.status(500).json({ error: err.message || "Server error" });
 }
