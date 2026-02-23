@@ -100,10 +100,11 @@ export default async function handler(req, res) {
     // 📊 ENVIAR A GOOGLE SHEETS
     const toUpper = (value) =>
   typeof value === "string" ? value.toUpperCase() : value;
+    const dataFormatada = (fields.dataNaixement || "").replaceAll("-", "");
     const googleRes = await fetch(process.env.GOOGLE_SCRIPT_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-     const dataFormatada = (fields.dataNaixement || "").replaceAll("-", "");
+     
 
 body: JSON.stringify({
   dni: toUpper(fields.dni),
