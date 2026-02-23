@@ -127,7 +127,7 @@ body: JSON.stringify({
 })
       
     });
-
+console.log("Google status:", googleRes.status);
     if (!googleRes.ok) {
       const errorText = await googleRes.text();
       console.error("Google Sheets error:", errorText);
