@@ -52,17 +52,12 @@ export default async function handler(req, res) {
     if (files.cv) {
       const file = Array.isArray(files.cv) ? files.cv[0] : files.cv;
 
-      if (file && file.filepath) {
-        const fileBuffer = fs.readFileSync(file.filepath);
+  if (file && file.filepath) {
+  const fileBuffer = fs.readFileSync(file.filepath);
 
-        cvBase64 = Buffer.from(fileBuffer).toString("base64");
-        cvFileName = file.originalFilename || "CV.pdf";
-
-        attachments.push({
-          filename: cvFileName,
-          content: fileBuffer,
-        });
-      }
+  cvBase64 = Buffer.from(fileBuffer).toString("base64");
+  cvFileName = file.originalFilename || "CV.pdf";
+}
     }
 
     const transporter = nodemailer.createTransport({
@@ -78,7 +73,7 @@ export default async function handler(req, res) {
       to: "jalejo@fomentformacio.com",
       subject: "Nova inscripció Agència de Col·locació",
       html: "<p>Nova inscripció rebuda</p>",
-      attachments,
+
     });
 
     const normalizeValue = (value) => {
